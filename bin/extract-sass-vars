@@ -1,0 +1,17 @@
+#! /usr/bin/env ruby
+require 'extract-sass-vars'
+require 'optparse'
+require 'json'
+
+options = {}
+parser = OptionParser.new do |opts|
+  opts.banner = "Usage: extract-sass-vars sass_file json_file"
+end
+
+options = parser.parse(ARGV)
+sass_file, json_file = ARGV
+
+vars = VariableExtractor.new(sass_file).extract
+File.open(json_file, "w") do |f|
+  f.puts vars.to_json
+end
